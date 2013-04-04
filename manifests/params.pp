@@ -55,7 +55,11 @@ class nrpe::params {
 
   $package = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'nagios-nrpe-server',
-    /(?i:SLES|OpenSuSE)/      => 'nagios-nrpe',
+# forked part    /(?i:SLES|OpenSuSE)/      => 'nagios-nrpe',
+    /(?i:SLES|OpenSuSE)/      => $package = $::operatingsystemrelease ? {
+				   /(12.3)/	=> 'nrpe',
+				   default 	=> 'nagios-nrpe',
+				}
     default                   => 'nrpe',
   }
 
